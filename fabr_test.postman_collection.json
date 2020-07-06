@@ -1,0 +1,500 @@
+{
+	"info": {
+		"_postman_id": "3eebb359-f6a6-44bd-891a-4c5e400ba4ec",
+		"name": "fabr_test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "/token/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/token/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"token",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/surveys/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{currentAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Survey 1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "descr 1",
+									"type": "text"
+								},
+								{
+									"key": "finish",
+									"value": "2020-07-13",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/surveys/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"surveys",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/surveys/1/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{currentAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "changed Survey name 1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "changed  some descr for survey #1",
+									"type": "text"
+								},
+								{
+									"key": "finish",
+									"value": "2020-07-18",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/surveys/1/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"surveys",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/surveys/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{currentAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/surveys/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"surveys",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/questions/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{currentAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "survey",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "b2b or b2c? Thats, question.",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "text",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/questions/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"questions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/questions/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{currentAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/questions/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"questions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/choices/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/choices/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"choices",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/choices/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "question",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "var 1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/choices/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"choices",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{currentAccessToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "/answers/",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "ex_user_id",
+									"value": "9379992",
+									"type": "text"
+								},
+								{
+									"key": "question",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "ratatata",
+									"type": "text"
+								},
+								{
+									"key": "selected_choices",
+									"value": "{'1':1}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/answers/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"answers",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/available_surveys/",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/available_surveys/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"available_surveys",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/answers/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:8000/answers/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"answers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/questions/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/questions/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"questions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/ex_users/7/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/ex_users/7/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"ex_users",
+								"7",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "b288fe49-f106-4ad5-a351-d27fcac817b7",
+			"key": "currentBearer",
+			"value": "0"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
