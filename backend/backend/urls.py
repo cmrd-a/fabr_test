@@ -1,38 +1,35 @@
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from survey.views import UserViewSet, SurveyViewSet, QuestionViewSet, AvailableChoiceViewSet, AnswerView, \
-    ExtendedUserViewSet, AvailableSurveyViewSet
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+from rest_framework import routers
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-
+from survey.views import SurveyViewSet, AvailableSurveyViewSet, QuestionViewSet, ChoiceViewSet, UserViewSet,  AnswerViewSet
 schema_view = get_schema_view(
     openapi.Info(
-        title="Snippets API",
+        title="Surveys API",
         default_version='v1',
-        description="Test description",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
-        license=openapi.License(name="BSD License"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
 
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'ex_users', ExtendedUserViewSet)
 router.register(r'surveys', SurveyViewSet)
 router.register(r'available_surveys', AvailableSurveyViewSet)
 router.register(r'questions', QuestionViewSet)
-router.register(r'choices', AvailableChoiceViewSet)
+router.register(r'users', UserViewSet)
+# router.register(r'choices', AvailableChoiceViewSet)
+# router.register(r'answers', AnswerViewSet)
 
 urlpatterns = [
-    path('answers/', AnswerView.as_view()),
+    # path('create_answer/', AnswerCreateView.as_view()),
+    # path('answers/', AnswerListView.as_view()),
+    # path('answers/<int:pk>/', AnswerRetrieveUpdateDestroyView.as_view()),
+    # path('new_answers/', NewAnswerCreateViewSet.as_view()),
 
     path('admin/', admin.site.urls),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
