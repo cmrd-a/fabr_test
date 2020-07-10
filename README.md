@@ -22,11 +22,11 @@
 - документация по API
 
 Локальный запуск:
-cd backend
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver 8000
+ - cd backend
+ - pip install -r requirements.txt
+ - python manage.py migrate
+ - python manage.py createsuperuser
+ - python manage.py runserver 8000
 
 Автодокументация:
 http://127.0.0.1:8000/swagger/
