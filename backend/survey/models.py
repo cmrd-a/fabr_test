@@ -19,15 +19,11 @@ class Survey(models.Model):
         super(Survey, self).save(*args, **kwargs)
 
     @property
-    def question_count(self):
-        return self.questions.count()
+    def users_complete(self):
+        return self.survey_completed_surveys.count()
 
     class Meta:
         ordering = ['start']
-
-    @property
-    def users_complete(self):
-        return self.objects.filter(survey_completed_surveys__user__exact=True)
 
 
 class Question(models.Model):

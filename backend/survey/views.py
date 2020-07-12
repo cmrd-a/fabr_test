@@ -1,30 +1,32 @@
 from datetime import datetime
 
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
-from rest_framework import mixins
-from rest_framework import viewsets, status
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
 from rest_framework.response import Response
 
 from survey.models import Survey, Question, Choice, ExtendedUser, Answer, CompletedSurvey
 from survey.serializers import SurveySerializer, AvailableSurveySeruializer, QuestionSerializer, ChoiceSerializer, \
-    UserSerializer, AnswerSerializer, CompletedSurveySerializer
+    UserSerializer, AnswerSerializer, CompletedSurveySerializer, SurveyDetailsSerializer, UserDetailsSerializer
 
 
 class SurveyViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUser,)
     queryset = Survey.objects.all()
-    serializer_class = SurveySerializer
 
-    # def get_serializer_class(self):
-    #     if self.request.method in ['GET']:
-    #         return SurveySerializer
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return SurveyDetailsSerializer
+        return SurveySerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = ExtendedUser.objects.all()
-    serializer_class = UserSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return UserDetailsSerializer
+        return UserSerializer
 
 
 class AvailableSurveyViewSet(viewsets.ViewSet):
