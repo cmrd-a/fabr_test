@@ -322,98 +322,6 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "create_answer",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "user_id",
-									"value": "1111",
-									"description": "id существующего или нового пользователя",
-									"type": "text"
-								},
-								{
-									"key": "question",
-									"value": "4",
-									"description": "время отправки должно быть в рамках проведения опроса",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{host}}/create_answer/",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"create_answer",
-								""
-							]
-						},
-						"description": "время отправки должно быть в рамках проведения опроса"
-					},
-					"response": []
-				},
-				{
-					"name": "answers",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "ex_user_id",
-									"value": "9379992",
-									"type": "text"
-								},
-								{
-									"key": "question",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "text",
-									"value": "ratatata",
-									"type": "text"
-								},
-								{
-									"key": "selected_choices",
-									"value": "{'1':1}",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{host}}/answers/",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"answers",
-								""
-							],
-							"query": [
-								{
-									"key": "",
-									"value": null,
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "available_surveys",
 					"request": {
 						"auth": {
@@ -428,28 +336,6 @@
 							],
 							"path": [
 								"available_surveys",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "answers",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{host}}/answers/",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"answers",
 								""
 							]
 						}
@@ -593,6 +479,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "completed_survey",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 5,\r\n    \"survey\": 10,\r\n    \"answers\": [\r\n        {\r\n            \"question\": 9,\r\n            \"text\": \"asdasdsdas\"\r\n           \r\n        },\r\n        {\r\n            \"question\": 10,\r\n            \"choices\": [\r\n                12\r\n            ]\r\n        },\r\n        {\r\n            \"question\": 11,\r\n            \"choices\": [\r\n                13,\r\n                14\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/completed_survey/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"completed_survey",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
@@ -625,12 +541,12 @@
 	],
 	"variable": [
 		{
-			"id": "a0400e34-9299-4059-b082-3e71ad91025f",
+			"id": "ff2e0f06-6fd2-44fd-bf4f-5506fcf299d7",
 			"key": "currentBearer",
 			"value": "0"
 		},
 		{
-			"id": "3cc9effc-f789-4a1f-a3b6-2cdf1b323400",
+			"id": "1b3ce079-55a3-4fad-9112-24ae5057997a",
 			"key": "{{host}}",
 			"value": "http://localhost:8000"
 		}

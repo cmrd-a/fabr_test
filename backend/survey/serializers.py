@@ -7,6 +7,11 @@ from survey.models import Survey, Question, Choice, ExtendedUser, Answer, Comple
 
 
 class SurveySerializer(serializers.ModelSerializer):
+    """
+    Поле "start" обязательно только при создании опроса.
+    При обновлении оно может отсутсвовать или совпадать с текущим значением.
+    Дата окончания должна быть позже даты начала опроса.
+    """
     start = serializers.DateField(required=False)
 
     class Meta:
@@ -48,8 +53,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ['id', 'survey', 'text', 'category', 'choices']
-        read_only_fields = ['id', ]
-        extra_kwargs = {'choices': {'required': False}}
+        read_only_fields = ['id']
 
 
 class ChoiceSerializer(serializers.ModelSerializer):
@@ -60,6 +64,10 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
 
 class AnswerSerializer(serializers.ModelSerializer):
+    """
+    Выполняется проверка, что поля ответа соответствуют типу вопроса.
+    Варианты ответа проверяются на привязку к конкретному вопросу.
+    """
     choices = serializers.ListSerializer
     question = serializers.CharField(source='question.text')
 
@@ -106,6 +114,13 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 
 class CompletedSurveySerializer(serializers.ModelSerializer):
+    """
+    Создаётся или выбирается пользователь с переданным 'user_id'.
+    Выполняется проверка что полльзователь ещё не проходил этот опрос,
+    и что текущая дата в рамках времени проведения опроса.
+    Выполняется проверка, что даны ответы на каждый вопрос в опросе.
+    В зависимости от типа вопроса, записываются нужные поля в ответ.
+    """
     user_id = serializers.IntegerField()
     answers = AnswerSerializer(many=True)
 
@@ -177,3 +192,13 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         model = ExtendedUser
         fields = ['user_id', 'user_completed_surveys']
         read_only_fields = ['user_id', 'user_completed_surveys']
+
+
+class AvailableSurveyDetailsSeruializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(required=False)
+    questions = QuestionDetailsSerializer(many=True)
+
+    class Meta:
+        model = Survey
+        fields = ['id', 'name', 'description', 'start', 'finish', 'questions', 'user_id']
+        read_only_fields = ['id', 'name', 'description', 'start', 'finish', 'questions']

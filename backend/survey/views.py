@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from survey.models import Survey, Question, Choice, ExtendedUser, Answer, CompletedSurvey
 from survey.serializers import SurveySerializer, AvailableSurveySeruializer, QuestionSerializer, ChoiceSerializer, \
-    UserSerializer, AnswerSerializer, CompletedSurveySerializer, SurveyDetailsSerializer, UserDetailsSerializer
+    UserSerializer, AnswerSerializer, CompletedSurveySerializer, SurveyDetailsSerializer, UserDetailsSerializer, AvailableSurveyDetailsSeruializer
 
 
 class SurveyViewSet(viewsets.ModelViewSet):
@@ -30,6 +30,10 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class AvailableSurveyViewSet(viewsets.ViewSet):
+    """
+    Возвращаются проходящие в данный момент опросы.
+    Если в параметрах передан 'user_id', отсекаются пройденные пользователем опросы.
+    """
     queryset = Survey.objects.filter(
         finish__gte=datetime.now().date(),
         start__lte=datetime.now().date()
@@ -50,7 +54,7 @@ class AvailableSurveyViewSet(viewsets.ViewSet):
         if user_id:
             queryset = self.queryset.exclude(survey_completed_surveys__user_id=user_id)
         survey = get_object_or_404(queryset, pk=pk)
-        serializer = AvailableSurveySeruializer(survey)
+        serializer = AvailableSurveyDetailsSeruializer(survey)
         return Response(serializer.data)
 
 
