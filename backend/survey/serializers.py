@@ -3,14 +3,14 @@ from rest_framework import serializers, fields
 from rest_framework.decorators import api_view
 from rest_framework.validators import UniqueTogetherValidator
 from survey.models import CATEGORY_CHOICES
+from datetime import datetime
 
-from survey.models import Survey, Question, Choice, ExtendedUser, Answer, CompletedSurvey
+from survey.models import Survey, Question, Choice, ExtendedUser, Answer, CompletedSurvey, \
+    CATEGORY_TEXT, CATEGORY_ONE, CATEGORY_MANY
 
 
 class SurveySerializer(serializers.ModelSerializer):
     start = serializers.DateField(required=False)
-
-    # survey_completed_surveys = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Survey
@@ -19,7 +19,9 @@ class SurveySerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         try:
-            self.validated_data['start']
+            start = self.validated_data['start']
+            if start >= self.validated_data['finish']:
+                raise serializers.ValidationError({'finish': "'start' must be earlier then 'finish'"})
         except KeyError:
             raise serializers.ValidationError({'start': 'this field is required on create'})
         return super(SurveySerializer, self).create(validated_data)
@@ -31,6 +33,8 @@ class SurveySerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({'start': 'this field cannot be changed'})
         except KeyError:
             pass
+        if validated_data['finish'] <= instance.start:
+            raise serializers.ValidationError({'finish': "'finish' must be later than 'start'"})
         return super(SurveySerializer, self).update(instance, validated_data)
 
 
@@ -40,7 +44,7 @@ class AvailableSurveySeruializer(serializers.ModelSerializer):
     class Meta:
         model = Survey
         fields = ['id', 'name', 'description', 'start', 'finish', 'questions', 'user_id']
-        # read_only_fields = ['id', 'name', 'description', 'start', 'finish', 'questions']
+        read_only_fields = ['id', 'name', 'description', 'start', 'finish', 'questions']
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -59,13 +63,14 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         question = data['question']
-        if question.category == 'text':
-            raise serializers.ValidationError({"wrong question category": "must be 'one' or 'many'"})
+        if question.category == CATEGORY_TEXT:
+            raise serializers.ValidationError(
+                {"wrong question category": f"must be '{CATEGORY_ONE}' or '{CATEGORY_MANY}'"})
         return data
 
 
 class AnswerSerializer(serializers.ModelSerializer):
-    choices = ChoiceSerializer(many=True)
+    choices = ChoiceSerializer(many=True, required=False)
 
     class Meta:
         model = Answer
@@ -81,13 +86,28 @@ class CompletedSurveySerializer(serializers.ModelSerializer):
         fields = ['user_id', 'survey', 'answers']
 
     def create(self, validated_data):
+        # todo: проверка типа ответа
         user_id = validated_data.pop('user_id')
         user_instance, created = ExtendedUser.objects.get_or_create(user_id=user_id)
-        try:
-            completed_survey_instance = CompletedSurvey.objects.create(**validated_data, user=user_instance)
-        except IntegrityError:
-            raise serializers.ValidationError(
-                'UNIQUE constraint failed: user_id, survey_id')
+        survey = validated_data['survey']
+
+        if CompletedSurvey.objects.filter(user=user_instance, survey=survey) or not (
+                survey.start <= datetime.now().date() <= survey.finish):
+            raise serializers.ValidationError('this survey is not available')
+
+        survey_q_id_list = list(Question.objects.filter(survey=survey).values_list('id', flat=True))
+        answers_data_list = validated_data.pop('answers')
+        answers_data_q_id_list = [a['question'].id for a in answers_data_list]
+
+        if survey_q_id_list == answers_data_q_id_list:
+            answers = []
+            for answer_data in answers_data_list:
+                answers.append(Answer.objects.create(question=answer_data['question'], text=answer_data['text']))
+        else:
+            raise serializers.ValidationError('wrong answers list')
+
+        completed_survey_instance = CompletedSurvey.objects.create(**validated_data, user=user_instance)
+        completed_survey_instance.answers.set(answers)
         return completed_survey_instance
 
 

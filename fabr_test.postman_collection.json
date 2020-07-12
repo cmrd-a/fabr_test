@@ -9,7 +9,7 @@
 			"name": "admin",
 			"item": [
 				{
-					"name": "/token/",
+					"name": "token",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -29,15 +29,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/token/",
-							"protocol": "http",
+							"raw": "{{host}}/token/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"token",
 								""
@@ -54,7 +49,7 @@
 					"response": []
 				},
 				{
-					"name": "/surveys/",
+					"name": "surveys",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -85,15 +80,19 @@
 									"key": "finish",
 									"value": "2020-07-13",
 									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "2020-07-10",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:8000/surveys/",
+							"raw": "{{host}}/surveys/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"surveys",
 								""
@@ -103,7 +102,7 @@
 					"response": []
 				},
 				{
-					"name": "/surveys/1/",
+					"name": "surveys/1",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -138,11 +137,10 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:8000/surveys/1/",
+							"raw": "{{host}}/surveys/1/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"surveys",
 								"1",
@@ -153,7 +151,7 @@
 					"response": []
 				},
 				{
-					"name": "/surveys/",
+					"name": "surveys",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -168,11 +166,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/surveys/",
+							"raw": "{{host}}/surveys/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"surveys",
 								""
@@ -182,7 +179,7 @@
 					"response": []
 				},
 				{
-					"name": "/questions/",
+					"name": "questions",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -217,11 +214,10 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:8000/questions/",
+							"raw": "{{host}}/questions/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"questions",
 								""
@@ -231,7 +227,7 @@
 					"response": []
 				},
 				{
-					"name": "/questions/",
+					"name": "questions",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -246,11 +242,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/questions/",
+							"raw": "{{host}}/questions/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"questions",
 								""
@@ -260,16 +255,15 @@
 					"response": []
 				},
 				{
-					"name": "/choices/",
+					"name": "choices",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/choices/",
+							"raw": "{{host}}/choices/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"choices",
 								""
@@ -279,7 +273,7 @@
 					"response": []
 				},
 				{
-					"name": "/choices/",
+					"name": "choices",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -299,11 +293,10 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:8000/choices/",
+							"raw": "{{host}}/choices/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"choices",
 								""
@@ -329,7 +322,46 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "/answers/",
+					"name": "create_answer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "1111",
+									"description": "id существующего или нового пользователя",
+									"type": "text"
+								},
+								{
+									"key": "question",
+									"value": "4",
+									"description": "время отправки должно быть в рамках проведения опроса",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/create_answer/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"create_answer",
+								""
+							]
+						},
+						"description": "время отправки должно быть в рамках проведения опроса"
+					},
+					"response": []
+				},
+				{
+					"name": "answers",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -362,15 +394,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/answers/",
-							"protocol": "http",
+							"raw": "{{host}}/answers/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"answers",
 								""
@@ -387,7 +414,7 @@
 					"response": []
 				},
 				{
-					"name": "/available_surveys/",
+					"name": "available_surveys",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -395,15 +422,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/available_surveys/",
-							"protocol": "http",
+							"raw": "{{host}}/available_surveys/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"available_surveys",
 								""
@@ -413,7 +435,7 @@
 					"response": []
 				},
 				{
-					"name": "/answers/",
+					"name": "answers",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -422,11 +444,10 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "localhost:8000/answers/",
+							"raw": "{{host}}/answers/",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"answers",
 								""
@@ -436,20 +457,15 @@
 					"response": []
 				},
 				{
-					"name": "/questions/",
+					"name": "questions",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/questions/",
-							"protocol": "http",
+							"raw": "{{host}}/questions/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"questions",
 								""
@@ -459,23 +475,119 @@
 					"response": []
 				},
 				{
-					"name": "/ex_users/7/",
+					"name": "ex_users/1",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/ex_users/7/",
-							"protocol": "http",
+							"raw": "{{host}}/ex_users/1/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"ex_users",
-								"7",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "available_surveys",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/available_surveys/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"available_surveys",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "12",
+									"disabled": true
+								}
+							]
+						},
+						"description": "возвращаются опросы проходящие в данный момент\r\n\r\nпри наличии параметра usser_id отсекаются пройденные пользователем опросы"
+					},
+					"response": []
+				},
+				{
+					"name": "available_surveys/1/",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/available_surveys/1/?user_id=12",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"available_surveys",
+								"1",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "12"
+								}
+							]
+						},
+						"description": "возвращаются опрос проходящий в данный момент\r\n\r\nпри наличии параметра usser_id отсекаются пройденные пользователем опросы"
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/1/",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/1/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"1",
 								""
 							]
 						}
@@ -489,11 +601,38 @@
 			"protocolProfileBehavior": {}
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "502e5eba-0e85-4da2-a0e6-89641b30b2db",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e6a8d978-905e-47d0-904c-22a397506cdf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"id": "b288fe49-f106-4ad5-a351-d27fcac817b7",
+			"id": "a0400e34-9299-4059-b082-3e71ad91025f",
 			"key": "currentBearer",
 			"value": "0"
+		},
+		{
+			"id": "3cc9effc-f789-4a1f-a3b6-2cdf1b323400",
+			"key": "{{host}}",
+			"value": "http://localhost:8000"
 		}
 	],
 	"protocolProfileBehavior": {}

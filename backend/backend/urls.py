@@ -7,7 +7,9 @@ from rest_framework import permissions
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from survey.views import SurveyViewSet, AvailableSurveyViewSet, QuestionViewSet, ChoiceViewSet, UserViewSet,  AnswerViewSet
+from survey.views import SurveyViewSet, AvailableSurveyViewSet, QuestionViewSet, ChoiceViewSet, UserViewSet, \
+    AnswerViewSet, CompletedSurveyViewSet
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Surveys API",
@@ -22,15 +24,11 @@ router.register(r'surveys', SurveyViewSet)
 router.register(r'available_surveys', AvailableSurveyViewSet)
 router.register(r'questions', QuestionViewSet)
 router.register(r'users', UserViewSet)
-# router.register(r'choices', AvailableChoiceViewSet)
-# router.register(r'answers', AnswerViewSet)
+router.register(r'choices', ChoiceViewSet)
+router.register(r'answers', AnswerViewSet)
+router.register(r'completed_survey', CompletedSurveyViewSet)
 
 urlpatterns = [
-    # path('create_answer/', AnswerCreateView.as_view()),
-    # path('answers/', AnswerListView.as_view()),
-    # path('answers/<int:pk>/', AnswerRetrieveUpdateDestroyView.as_view()),
-    # path('new_answers/', NewAnswerCreateViewSet.as_view()),
-
     path('admin/', admin.site.urls),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^', include(router.urls)),

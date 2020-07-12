@@ -14,8 +14,12 @@ from survey.serializers import SurveySerializer, AvailableSurveySeruializer, Que
 
 class SurveyViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUser,)
-    queryset = Survey.objects.all().order_by('finish')
+    queryset = Survey.objects.all()
     serializer_class = SurveySerializer
+
+    # def get_serializer_class(self):
+    #     if self.request.method in ['GET']:
+    #         return SurveySerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -65,49 +69,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     serializer_class = AnswerSerializer
 
 
-class AnswerCreateView2(generics.CreateAPIView):
+class CompletedSurveyViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
-
-    def post(self, request, *args, **kwargs):
-        try:
-            user_id = request.data['user_id']
-        except KeyError:
-            return Response({'user': 'required'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # try:
-        #     question_id = request.data['question']
-        # except KeyError:
-        #     return Response({'question': 'wrong id'}, status=status.HTTP_400_BAD_REQUEST)
-
-        user, created = ExtendedUser.objects.get_or_create(user_id=user_id)
-        serializer = self.serializer_class(data={
-            'user': user.user_id,
-            'question': request.data['question'],
-            # 'text': request.data['text'],
-            # 'selected_choices': request.data['selected_choices'],
-        })
-        # serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid():
-            question_id = request.data['question']
-            question = Question.objects.get(pk=question_id)
-            survey = question.survey
-            if survey.start <= datetime.now().date() <= survey.finish:
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AnswerListView(generics.ListAPIView):
-    permission_classes = (IsAdminUser,)
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
-
-
-class AnswerRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAdminUser,)
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
+    queryset = CompletedSurvey.objects.all()
+    serializer_class = CompletedSurveySerializer
