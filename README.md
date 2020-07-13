@@ -30,3 +30,5 @@
 
 Автодокументация:
 http://127.0.0.1:8000/swagger/
+Примеры запросов:
+fabr_test.postman_collection.json
